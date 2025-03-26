@@ -1,0 +1,266 @@
+# Ergogen congig file for TEMPEST keyboard
+
+# invaluable ergogen help from https://flatfootfox.com/ergogen-part1-units-points/
+
+meta:
+  engine: 4.1.0
+  version: 0.1a
+  author: oliver thurley
+  url: https://github.com/thrly/tempest
+
+units:
+  # Proxy Spacing Variables
+  kx: cx #choc spaced
+  ky: cy
+  # Padding Variables
+  px: kx + 2
+  py: ky + 2
+
+  # display correct choc sizing
+  $default_width: 18
+  $default_height: 17
+
+points:
+  zones:
+    matrix:
+      anchor.shift: [50, -100] # Fix KiCad placement
+      key:
+        padding: 1.02ky # is this extra spacing necessary or will 1 allow spacing for keycaps?
+        spread: 1.02kx
+      columns:
+        # extra: # additional outer key, inspired by TOTEM
+        #   rows.bottom.skip: true
+        #   rows.top.skip: true
+        #   key.splay: 8
+        pinky:
+          key.stagger: 0.33ky
+          key.splay: 8 # comment this line out if using the 'extra' key above
+          key.column_net: col_pinky
+        ring:
+          key.stagger: 0.66ky
+          key.splay: -4
+          key.spread: 1.045kx # avoid collision on splayed col?
+          key.column_net: col_ring
+        middle:
+          key.stagger: 0.5ky
+          key.splay: -4
+          key.spread: 1.045kx # avoid collision on splayed col?
+          key.column_net: col_middle
+        index:
+          key.stagger: -0.5ky
+          key.column_net: col_index
+        inner:
+          key.stagger: -0.15ky
+          key.column_net: col_inner
+      rows:
+        bottom:
+          row_net: row_bottom
+        home:
+          row_net: row_home
+        top:
+          row_net: row_top
+
+    thumb:
+      key:
+        padding: 1ky
+        spread: 1.1kx
+      anchor:
+        ref: matrix_index_bottom
+        shift: [0.33kx, -1.25ky]
+        # rotate: -10
+      columns:
+        near:
+          key.name: thumb_near
+          key.column_net: col_middle
+        mid:
+          key.splay: -15
+          key.origin: [-0.5kx, -0.5ky]
+          key.name: thumb_mid
+          key.column_net: col_index
+        far:
+          key.splay: -15
+          key.origin: [-0.5kx, -0.5ky] #-0.5kx
+          key.name: thumb_far
+          key.column_net: col_inner
+          ## for 1.5 thumb key
+          # key.width: 1.5kx
+          # key.rotate: 90
+      rows:
+        thumb-cluster:
+          row_net: row_thumb
+
+outlines:
+  # just the keys
+  raw:
+    - what: rectangle
+      where: true
+      # bound: true
+      size: [kx+2, ky+2]
+      # fillet: 2
+
+  # keys without padding
+  keys:
+    - what: rectangle
+      where: true
+      size: [kx-0.5, ky-0.5]
+
+  mcu:
+    - what: rectangle
+      where:
+        - ref: matrix_inner_top
+          shift: [18, -23]
+      size: [18, 65]
+
+  # draw thumb cluster outline
+  thumb_outline:
+    - what: polygon
+      operation: stack
+      # bound: true
+      points:
+        - ref: thumb_near
+          shift: [-0.5px, 0.75py]
+        - ref: matrix_inner_bottom
+          shift: [0.5px, -0.5py]
+
+        - ref: thumb_far
+          shift: [-0.5px, 0.5py]
+        - ref: thumb_far
+          shift: [0.5px, 0.5py]
+        - ref: thumb_far
+          shift: [0.5px, -0.5py]
+        - ref: thumb_far
+          shift: [-0.5px, -0.5075py]
+
+        - ref: thumb_near
+          shift: [0.5px, -0.5py]
+        - ref: thumb_near
+          shift: [-0.5px, -0.5py]
+
+  # combine keys with thumb cluster
+  key_and_thumb: [raw, thumb_outline, mcu]
+
+  board_outline:
+    - name: key_and_thumb
+      expand: 1
+      fillet: 1
+
+  # Combination preview showing outline and keys.
+  all_key_outline:
+    - name: board_outline
+    - operation: subtract
+      name: keys
+
+pcbs:
+  tempest:
+    template: kicad8
+    outlines:
+      main:
+        outline: board_outline
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{colrow}}"
+          to: "{{col_net}}"
+
+      diode:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+
+      mcu:
+        what: mcu_nice_nano
+        where:
+          - ref: matrix_inner_home
+            shift: [18.5, 10.2]
+            # rotate: 270
+        params:
+          reversible: true
+          reverse_mount: true
+          P4: row_top
+          P5: row_home
+          P6: row_bottom
+          P7: row_thumb
+          P14: col_inner
+          P15: col_index
+          P18: col_middle
+          P19: col_ring
+          P20: col_pinky
+
+      display:
+        what: display_nice_view
+        params:
+          reversible: true
+          include_labels: false
+        where:
+          - ref: matrix_inner_home
+            shift: [18.5, 7]
+
+      battery:
+        what: battery_connector_jst_ph_2
+        params:
+          reversible: true
+        where:
+          - ref: matrix_inner_home
+            shift: [22, -15.2]
+            rotate: -90
+
+      power:
+        what: power_switch_smd_side
+        params:
+          reversible: true
+        where:
+          - ref: matrix_inner_home
+            shift: [26, -26]
+            rotate: 0
+
+      reset:
+        what: reset_switch_smd_side
+        params:
+          reversible: true
+        where:
+          - ref: matrix_inner_home
+            shift: [26, -15]
+            rotate: -90
+
+      tempest:
+        what: utility_text
+        where:
+          - ref: matrix_inner_bottom
+            shift: [16.5, -8]
+        params:
+          side: "F"
+          text: "TEMPEST"
+          height: 2
+          width: 2
+          knockout: true
+          reversible: true
+
+      thrly:
+        what: utility_text
+        where:
+          - ref: matrix_inner_bottom
+            shift: [12.5, -10]
+        params:
+          side: "F"
+          text: "@thrly"
+          reversible: true
+
+      ver:
+        what: utility_text
+        where:
+          - ref: matrix_inner_bottom
+            shift: [22, -10]
+        params:
+          side: "F"
+          text: "v.1"
+          reversible: true
+cases:
