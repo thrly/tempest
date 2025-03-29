@@ -1,5 +1,5 @@
 // from: https://github.com/ceoloide/ergogen-footprints/blob/main/utility_text.js
-// 
+//
 // Copyright (c) 2023 Marco Massarelli
 //
 // SPDX-License-Identifier: CC-BY-NC-SA-4.0
@@ -53,50 +53,102 @@
 //  - Add option to chose the layer where the text is added to
 
 module.exports = {
-    params: {
-      designator: 'TXT',
-      side: 'F',
-      layer: 'SilkS',
-      reversible: false,
-      thickness: 0.15,
-      height: 1,
-      width: 1,
-      mirrored: false,
-      knockout: false,
-      bold: false,
-      italic: false,
-      align: '',
-      face: '',
-      text: ''
-    },
-    body: p => {
-      const generate_text = (side, layer, align, mirrored, thickness, height, width, text, face, bold, italic, knockout) => {
-        let justify = `(justify ${align} ${mirrored ? 'mirror' : ''})`;
-        const gr_text = `
+  params: {
+    designator: "TXT",
+    side: "F",
+    layer: "SilkS",
+    reversible: false,
+    thickness: 0.15,
+    height: 1,
+    width: 1,
+    mirrored: false,
+    knockout: false,
+    bold: false,
+    italic: false,
+    align: "",
+    face: "",
+    text: "",
+  },
+  body: (p) => {
+    const generate_text = (
+      side,
+      layer,
+      align,
+      mirrored,
+      thickness,
+      height,
+      width,
+      text,
+      face,
+      bold,
+      italic,
+      knockout
+    ) => {
+      let justify = `(justify ${align} ${mirrored ? "mirror" : ""})`;
+      const gr_text = `
     (gr_text "${text}"
       ${p.at}
-      (layer "${side}.${layer}" ${knockout ? 'knockout' : ''})
+      (layer "${side}.${layer}" ${knockout ? "knockout" : ""})
       (effects
-        (font ${face != '' ? '(face "' + face + '")' : ''}
+        (font ${face != "" ? '(face "' + face + '")' : ""}
           (size ${height} ${width})
           (thickness ${thickness})
-          ${bold ? '(bold yes)' : ''}
-          ${italic ? '(italic yes)' : ''}
+          ${bold ? "(bold yes)" : ""}
+          ${italic ? "(italic yes)" : ""}
         )
-        ${align != '' || mirrored ? justify : ''}
+        ${align != "" || mirrored ? justify : ""}
       )
     )
         `;
-        return gr_text;
-      };
-  
-      let final = '';
-      if (p.reversible) {
-        final += generate_text('F', p.layer, p.align, false, p.thickness, p.height, p.width, p.text, p.face, p.bold, p.italic, p.knockout);
-        final += generate_text('B', p.layer, p.align, true, p.thickness, p.height, p.width, p.text, p.face, p.bold, p.italic, p.knockout);
-      } else {
-        final += generate_text(p.side, p.layer, p.align, p.mirrored, p.thickness, p.height, p.width, p.text, p.face, p.bold, p.italic, p.knockout);
-      }
-      return final;
+      return gr_text;
+    };
+
+    let final = "";
+    if (p.reversible) {
+      final += generate_text(
+        "F",
+        p.layer,
+        p.align,
+        false,
+        p.thickness,
+        p.height,
+        p.width,
+        p.text,
+        p.face,
+        p.bold,
+        p.italic,
+        p.knockout
+      );
+      final += generate_text(
+        "B",
+        p.layer,
+        p.align,
+        true,
+        p.thickness,
+        p.height,
+        p.width,
+        p.text,
+        p.face,
+        p.bold,
+        p.italic,
+        p.knockout
+      );
+    } else {
+      final += generate_text(
+        p.side,
+        p.layer,
+        p.align,
+        p.mirrored,
+        p.thickness,
+        p.height,
+        p.width,
+        p.text,
+        p.face,
+        p.bold,
+        p.italic,
+        p.knockout
+      );
     }
-  };
+    return final;
+  },
+};
