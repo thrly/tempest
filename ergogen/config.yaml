@@ -15,6 +15,13 @@ units:
   # Padding Variables
   px: kx + 2
   py: ky + 2
+  
+  # vertical offset of mcu area items
+  voff: 6
+
+  # pinky splay angles
+  spang: 8
+  pinksprd: 0.5 
 
   # display correct choc sizing
   $default_width: 18
@@ -25,30 +32,31 @@ points:
     matrix:
       anchor.shift: [50, -100] # Fix KiCad placement
       key:
-        padding: 1.02ky # is this extra spacing necessary or will 1 allow spacing for keycaps?
-        spread: 1.02kx
+        padding: 1ky # is this extra spacing necessary or will 1 allow spacing for keycaps?
+        spread: 1kx
       columns:
         # extra: # additional outer key, inspired by TOTEM
         #   rows.bottom.skip: true
         #   rows.top.skip: true
-        #   key.splay: 8
+        #   key.splay: spang
+        #   key.column_net: col_extra
         pinky:
           key.stagger: 0.33ky
-          key.splay: 8 # comment this line out if using the 'extra' key above
+          key.splay: spang # comment this line out if using the 'extra' key above
           key.column_net: col_pinky
         ring:
           key.stagger: 0.66ky
-          key.splay: -4
-          key.spread: 1.045kx # avoid collision on splayed col?
-          key.column_net: col_ring
+          key.splay: -spang/2
+          key.spread: 1kx + pinksprd # avoid collision on splayed col?
+          key.column_net: P19 #col_ring
         middle:
-          key.stagger: 0.5ky
-          key.splay: -4
-          key.spread: 1.045kx # avoid collision on splayed col?
-          key.column_net: col_middle
+          key.stagger: 0.4ky
+          key.splay: -spang/2
+          key.spread: 1kx + pinksprd # avoid collision on splayed col?
+          key.column_net: P18 #col_middle
         index:
           key.stagger: -0.5ky
-          key.column_net: col_index
+          key.column_net: P15 #col_index
         inner:
           key.stagger: -0.15ky
           key.column_net: col_inner
@@ -94,9 +102,7 @@ outlines:
   raw:
     - what: rectangle
       where: true
-      # bound: true
-      size: [kx+2, ky+2]
-      # fillet: 2
+      size: [px, py]
 
   # keys without padding
   keys:
@@ -104,12 +110,18 @@ outlines:
       where: true
       size: [kx-0.5, ky-0.5]
 
+  # keys without padding
+  key-plate:
+    - what: rectangle
+      where: true
+      size: [kx-2, ky-2]
+
   mcu:
     - what: rectangle
       where:
         - ref: matrix_inner_top
-          shift: [18, -23]
-      size: [18, 65]
+          shift: [18, -20 - voff]
+      size: [18, 60]
 
   # draw thumb cluster outline
   thumb_outline:
@@ -137,11 +149,19 @@ outlines:
           shift: [-0.5px, -0.5py]
 
   # combine keys with thumb cluster
-  key_and_thumb: [raw, thumb_outline, mcu]
-
+  key_section: [raw, thumb_outline]
+  key_and_thumb: [key_section, mcu]
+  
+  top_plate:
+    - name: key_section
+      expand: 1.2
+      fillet: 1
+    - operation: subtract
+      name: key-plate
+    
   board_outline:
     - name: key_and_thumb
-      expand: 1
+      expand: 1.2
       fillet: 1
 
   # Combination preview showing outline and keys.
@@ -151,40 +171,60 @@ outlines:
       name: keys
 
 pcbs:
-  tempest:
+  tempest-pcb:
     template: kicad8
     outlines:
       main:
         outline: board_outline
     footprints:
       choc_hotswap:
-        what: choc
+        what: ceoloide/switch_choc_v1_v2
         where: true
         params:
-          keycaps: true
-          reverse: true
-          hotswap: true
           from: "{{colrow}}"
-          to: "{{col_net}}"
+          to: "{{column_net}}"
+          include_corner_marks: true
+          include_keycap: true
+          keycap_height: 16.5
+          keycap_width: 17.5
+          reversible: true
+          hotswap: true
+          choc_v2_support: false
 
       diode:
-        what: diode
+        what: ceoloide/diode_tht_sod123
         where: true
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
+          include_tht: false
+          reversible: true
         adjust:
+          # rotate: -90
+          # shift: [8.25,4.2]
           shift: [0, -5]
+          # resist: true
 
       mcu:
-        what: mcu_nice_nano
+        what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 10.2]
-            # rotate: 270
+            shift: [18.5, 10.2 - voff]
         params:
           reversible: true
           reverse_mount: true
+          # only_required_jumpers: true
+
+          # P4_label: row_top
+          # P5_label: row_home
+          # P6_label: row_bottom
+          # P7_label: row_thumb
+          # P14_label: col_inner
+          # P15_label: col_index
+          # P18_label: col_middle
+          # P19_label: col_ring
+          # P20_label: col_pinky
+
           P4: row_top
           P5: row_home
           P6: row_bottom
@@ -196,48 +236,47 @@ pcbs:
           P20: col_pinky
 
       display:
-        what: display_nice_view
+        what: ceoloide/display_nice_view
         params:
           reversible: true
           include_labels: false
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 7]
+            shift: [18.5, 8.4 - voff]
 
       battery:
-        what: battery_connector_jst_ph_2
+        what: ceoloide/battery_connector_jst_ph_2
         params:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [22, -15.2]
+            shift: [22, -14.2 - voff]
             rotate: -90
 
       power:
-        what: power_switch_smd_side
+        what: ceoloide/power_switch_smd_side
         params:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26, -26]
+            shift: [26.5, -23 - voff]
             rotate: 0
 
       reset:
-        what: reset_switch_smd_side
+        what: ceoloide/reset_switch_smd_side
         params:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26, -15]
+            shift: [26.2, -14 - voff]
             rotate: -90
 
       tempest:
-        what: utility_text
+        what: ceoloide/utility_text
         where:
           - ref: matrix_inner_bottom
-            shift: [16.5, -8]
+            shift: [16.25, -4 - voff]
         params:
-          side: "F"
           text: "TEMPEST"
           height: 2
           width: 2
@@ -245,22 +284,44 @@ pcbs:
           reversible: true
 
       thrly:
-        what: utility_text
+        what: ceoloide/utility_text
         where:
-          - ref: matrix_inner_bottom
-            shift: [12.5, -10]
+          - ref: thumb_far
+            shift: [0,-3]
+            # rotate: 30
         params:
-          side: "F"
-          text: "@thrly"
+          text: "by thrly"
+          side: "B"
           reversible: true
 
       ver:
-        what: utility_text
+        what: ceoloide/utility_text
         where:
           - ref: matrix_inner_bottom
-            shift: [22, -10]
+            shift: [22, -6  - voff]
         params:
-          side: "F"
           text: "v.1"
           reversible: true
+      
+      hole_1:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_pinky_top
+            shift: [0.5 kx + 1, -0.5 ky + 1.5]
+      hole_2:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_top
+            shift: [-0.5 kx, -0.4 ky]
+      hole_3:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: thumb_far
+            shift: [-0.5 kx - 2.5, 0.25 ky]
+      hole_4:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_ring_bottom
+            shift: [-0.5 kx, -0.2 ky]
+
 cases:
