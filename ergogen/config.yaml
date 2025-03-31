@@ -2,6 +2,8 @@
 
 # invaluable ergogen help from https://flatfootfox.com/ergogen-part1-units-points/
 
+# note that the mcu and display footprint files have been edited to alter drill size to 0.85mm.
+
 meta:
   engine: 4.1.0
   version: 0.1a
@@ -15,13 +17,30 @@ units:
   # Padding Variables
   px: kx + 2
   py: ky + 2
-  
+
   # vertical offset of mcu area items
   voff: 6
 
   # pinky splay angles
   spang: 8
-  pinksprd: 0.5 
+  pinksprd: 0.5
+
+  standoff_size: 5 #size for standoff holes on pcb
+
+  hole1_x: -0.5 kx - 1
+  hole1_y: -0.5 ky + 0.5
+
+  hole2_x: -0.52 kx
+  hole2_y: -0.35 ky
+
+  hole3_x: 0.5 kx + 2.8
+  hole3_y: 0.4 ky - 0.2
+
+  hole4_x: 0.5 kx - 0.4
+  hole4_y: -0.5 ky - 2
+
+  hole5_x: -0.5 kx - 0.4
+  hole5_y: -0.2 ky
 
   # display correct choc sizing
   $default_width: 18
@@ -151,14 +170,14 @@ outlines:
   # combine keys with thumb cluster
   key_section: [raw, thumb_outline]
   key_and_thumb: [key_section, mcu]
-  
+
   top_plate:
     - name: key_section
       expand: 1.2
       fillet: 1
     - operation: subtract
       name: key-plate
-    
+
   board_outline:
     - name: key_and_thumb
       expand: 1.2
@@ -213,17 +232,6 @@ pcbs:
         params:
           reversible: true
           reverse_mount: true
-          # only_required_jumpers: true
-
-          # P4_label: row_top
-          # P5_label: row_home
-          # P6_label: row_bottom
-          # P7_label: row_thumb
-          # P14_label: col_inner
-          # P15_label: col_index
-          # P18_label: col_middle
-          # P19_label: col_ring
-          # P20_label: col_pinky
 
           P4: row_top
           P5: row_home
@@ -287,7 +295,7 @@ pcbs:
         what: ceoloide/utility_text
         where:
           - ref: thumb_far
-            shift: [0,-3]
+            shift: [0, -3]
             # rotate: 30
         params:
           text: "by thrly"
@@ -302,26 +310,111 @@ pcbs:
         params:
           text: "v.1"
           reversible: true
-      
+
       hole_1:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_pinky_top
-            shift: [0.5 kx + 1, -0.5 ky + 1.5]
+          - ref: matrix_middle_top
+            shift: [hole1_x, hole1_y]
+
+        params:
+          hole_size: standoff_size
+          hole_drill: standoff_size
       hole_2:
         what: ceoloide/mounting_hole_npth
         where:
           - ref: matrix_inner_top
-            shift: [-0.5 kx, -0.4 ky]
+            shift: [hole2_x, hole2_y]
+        params:
+          hole_size: standoff_size
+          hole_drill: standoff_size
       hole_3:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: thumb_far
-            shift: [-0.5 kx - 2.5, 0.25 ky]
+          - ref: thumb_mid
+            shift: [hole3_x, hole3_y]
+        params:
+          hole_size: standoff_size
+          hole_drill: standoff_size
       hole_4:
         what: ceoloide/mounting_hole_npth
         where:
+          - ref: matrix_index_bottom
+            shift: [hole4_x, hole4_y]
+        params:
+          hole_size: standoff_size
+          hole_drill: standoff_size
+      hole_5:
+        what: ceoloide/mounting_hole_npth
+        where:
           - ref: matrix_ring_bottom
-            shift: [-0.5 kx, -0.2 ky]
+            shift: [hole5_x, hole5_y]
+        params:
+          hole_size: standoff_size
+          hole_drill: standoff_size
 
-cases:
+  ###### BACKPLATE PCB
+  tempest-back-plate:
+    template: kicad8
+    outlines:
+      main:
+        outline: board_outline
+    footprints:
+      hole_1:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_middle_top
+            shift: [hole1_x, hole1_y]
+      hole_2:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_top
+            shift: [hole2_x, hole2_y]
+      hole_3:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: thumb_mid
+            shift: [hole3_x, hole3_y]
+      hole_4:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_index_bottom
+            shift: [hole4_x, hole4_y]
+      hole_5:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_ring_bottom
+            shift: [hole5_x, hole5_y]
+
+  ###### TOPPLATE PCB
+  tempest-top-plate:
+    template: kicad8
+    outlines:
+      main:
+        outline: top_plate
+    footprints:
+      hole_1:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_middle_top
+            shift: [hole1_x, hole1_y]
+      hole_2:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_top
+            shift: [hole2_x, hole2_y]
+      hole_3:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: thumb_mid
+            shift: [hole3_x, hole3_y]
+      hole_4:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_index_bottom
+            shift: [hole4_x, hole4_y]
+      hole_5:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_ring_bottom
+            shift: [hole5_x, hole5_y]
