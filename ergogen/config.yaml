@@ -228,11 +228,11 @@ pcbs:
         what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 10.2 - voff]
+            shift: [18.5, 10.8 - voff]
         params:
           reversible: true
           reverse_mount: true
-
+          show_silk_labels: false
           P4: row_top
           P5: row_home
           P6: row_bottom
@@ -250,7 +250,7 @@ pcbs:
           include_labels: false
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 8.4 - voff]
+            shift: [18.5, 8 - voff]
 
       battery:
         what: ceoloide/battery_connector_jst_ph_2
@@ -267,7 +267,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26.5, -23 - voff]
+            shift: [26.16, -22.5 - voff]
             rotate: 0
 
       reset:
@@ -306,9 +306,9 @@ pcbs:
         what: ceoloide/utility_text
         where:
           - ref: matrix_inner_bottom
-            shift: [22, -6  - voff]
+            shift: [21, -6  - voff]
         params:
-          text: "v.1"
+          text: "v.0.1"
           reversible: true
 
       hole_1:
@@ -353,6 +353,18 @@ pcbs:
           hole_size: standoff_size
           hole_drill: standoff_size
 
+      ### mcu cover holes
+      hole_screen_L:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_bottom
+            shift: [0.5 kx + 1.4, 2.]
+      hole_screen_5:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_bottom
+            shift: [0.5 kx + 17.3, 2.]
+
   ###### BACKPLATE PCB
   tempest-back-plate:
     template: kicad8
@@ -386,7 +398,7 @@ pcbs:
           - ref: matrix_ring_bottom
             shift: [hole5_x, hole5_y]
 
-  ###### TOPPLATE PCB
+  ###### TOPPLATE
   tempest-top-plate:
     template: kicad8
     outlines:
