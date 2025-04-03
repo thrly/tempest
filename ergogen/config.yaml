@@ -42,6 +42,8 @@ units:
   hole5_x: -0.5 kx - 0.4
   hole5_y: -0.2 ky
 
+  wall_thickness: 1.2
+
   # display correct choc sizing
   $default_width: 18
   $default_height: 17
@@ -130,10 +132,10 @@ outlines:
       size: [kx-0.5, ky-0.5]
 
   # keys without padding
-  key-plate:
+  key-plug:
     - what: rectangle
       where: true
-      size: [kx-2, ky-2]
+      size: [13.8, 13.8]
 
   mcu:
     - what: rectangle
@@ -176,12 +178,16 @@ outlines:
       expand: 1.2
       fillet: 1
     - operation: subtract
-      name: key-plate
+      name: key-plug
 
   board_outline:
     - name: key_and_thumb
       expand: 1.2
       fillet: 1
+
+  backplate:
+    - name: board_outline
+      expand: wall_thickness
 
   # Combination preview showing outline and keys.
   all_key_outline:
@@ -366,11 +372,46 @@ pcbs:
             shift: [0.5 kx + 17.3, 2.]
 
   ###### BACKPLATE PCB
+  tempest-back-case:
+    template: kicad8
+    outlines:
+      main:
+        outline: backplate
+        expand: wall-thickness
+    footprints:
+      hole_1:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_middle_top
+            shift: [hole1_x, hole1_y]
+      hole_2:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_top
+            shift: [hole2_x, hole2_y]
+      hole_3:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: thumb_mid
+            shift: [hole3_x, hole3_y]
+      hole_4:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_index_bottom
+            shift: [hole4_x, hole4_y]
+      hole_5:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_ring_bottom
+            shift: [hole5_x, hole5_y]
+
+  ##### BACKPLATE PCB
   tempest-back-plate:
     template: kicad8
     outlines:
       main:
         outline: board_outline
+        expand: wall-thickness
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
