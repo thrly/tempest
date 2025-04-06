@@ -2,7 +2,7 @@
 
 _a 36-key split ergonomic wireless keyboard._
 
-![Tempest Image](/tempest-pcb-v01.png)
+![TEMPEST Image](/tempest-pcb-v01.png)
 
 > [!CAUTION]
 > v.0.1 : Currently awaiting PCB to tests. There are some potential collisions on the board design which may cause issues.
@@ -12,21 +12,33 @@ _a 36-key split ergonomic wireless keyboard._
 - Five columns, three rows, three thumb keys.
 - Column stagger and splay on the pinky and ring columns.
 - Powered by nice!nano microcontroller / pro micro (and optional nice!view display).
-- Low profile Choc switches.
+- Designed for wireless use / battery.
+- Low profile v1 Choc switches.
 - Reversible PCB.
-- Uses some components from the Typeractive Corne design.
+- Uses some components (JST plug, power switch, reset) from the Typeractive Corne design.
 - Layout with Ergogen (see [config.yaml](./ergogen/config.yaml)).
+
+## Build guide
+
+The build for the TEMPEST is simple, and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
 
 ## Using this repo
 
-The ergogen files are contained in the ergogen/ folder.
+### Ergogen / design
 
-Gerber files for PCB fabrication (i.e. JLPCB) can be found in /tempest-gerbers/ for ordering.
-
-Latest KiCad PCB is included, but files can be generated using Ergogen.
+The ergogen files are contained in the ergogen/ folder. See [here](https://docs.ergogen.xyz/usage) for guidance on building from ergogen.
 
 > [!IMPORTANT]
 > Some of the ergogen/ceoloide footprint files have been modified slightly from the [originals](https://github.com/ceoloide/ergogen-footprints).
+
+### PCB
+Gerber and drill files for PCB fabrication (i.e. JLPCB) can be found in /tempest-gerbers/ for ordering.
+
+Latest KiCad PCB is included, but files can be generated using Ergogen.
+
+### Case
+Plates and case 3D printed (STLs included). Printed in Matte PLA, with 0.12 layer height and 100% infill. 
+Alternatively, you can use the back-plate and top-plate exports from ergogen to order FR-4 plates along with your PCB.
 
 ## Influences
 
@@ -36,4 +48,11 @@ TEMPEST takes influence from:
 - [Bad Temper](https://github.com/essFitt/Bad-Temper/tree/main) by essFitt
 - [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) by GEIST
 - [FORAGER](https://github.com/carrefinho/forager) by carrefinho
-- also Chocofi, Sweep, Corne
+- [Corne](https://github.com/foostan/crkbd) by foostan (and the [Typeractive](https://typeractive.xyz/) version)
+- also Chocofi, Sweep, etc.
+
+## Future improvements
+For version 2 (not currently planned), I will likely make changes to:
+- thumb cluster placement: bring the inner and outer thumb keys in closer to the middle thumb key to remove the slight gap.
+- raise the ring column slightly, lower the middle-finger column slightly (maybe).
+
