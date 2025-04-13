@@ -42,7 +42,8 @@ units:
   hole5_x: -0.5 kx - 0.4
   hole5_y: -0.2 ky
 
-  wall_thickness: 1.2
+  wall_thickness: 1.2 # account for the thickness in 3D printed case/plate
+  print_fit_tolerance: 0.5 # give the case some overlap beyond pcb
 
   # display correct choc sizing
   $default_width: 18
@@ -137,6 +138,14 @@ outlines:
       where: true
       size: [13.8, 13.8]
 
+  mcu_key_shave:
+    - what: rectangle
+      where:
+        - ref: matrix_inner_top
+          shift: [11.5, -8 - voff]
+      size: [5, 35]
+
+
   mcu:
     - what: rectangle
       where:
@@ -153,7 +162,7 @@ outlines:
         - ref: thumb_near
           shift: [-0.5px, 0.75py]
         - ref: matrix_inner_bottom
-          shift: [0.5px, -0.5py]
+          shift: [0.45px, -0.5py]
 
         - ref: thumb_far
           shift: [-0.5px, 0.5py]
@@ -173,12 +182,14 @@ outlines:
   key_section: [raw, thumb_outline]
   key_and_thumb: [key_section, mcu]
 
+  top_plate_cutouts: [key-plug, mcu_key_shave]
+
   top_plate:
     - name: key_section
       expand: 1.2
-      fillet: 1
     - operation: subtract
-      name: key-plug
+      name: top_plate_cutouts
+      fillet: 1
 
   board_outline:
     - name: key_and_thumb
@@ -369,41 +380,7 @@ pcbs:
         what: ceoloide/mounting_hole_npth
         where:
           - ref: matrix_inner_bottom
-            shift: [0.5 kx + 17.3, 2.]
-
-  ###### BACKPLATE PCB
-  tempest-back-case:
-    template: kicad8
-    outlines:
-      main:
-        outline: backplate
-        expand: wall-thickness
-    footprints:
-      hole_1:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_middle_top
-            shift: [hole1_x, hole1_y]
-      hole_2:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_inner_top
-            shift: [hole2_x, hole2_y]
-      hole_3:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: thumb_mid
-            shift: [hole3_x, hole3_y]
-      hole_4:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_index_bottom
-            shift: [hole4_x, hole4_y]
-      hole_5:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_ring_bottom
-            shift: [hole5_x, hole5_y]
+            shift: [0.5 kx + 17.3, 2.0]
 
   ##### BACKPLATE PCB
   tempest-back-plate:
@@ -411,7 +388,7 @@ pcbs:
     outlines:
       main:
         outline: board_outline
-        expand: wall-thickness
+        expand: wall-thickness + print_fit_tolerance
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
@@ -445,6 +422,7 @@ pcbs:
     outlines:
       main:
         outline: top_plate
+        expand: print_fit_tolerance
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
