@@ -11,7 +11,7 @@ _a 36-key split ergonomic wireless keyboard._
 
 - Five columns, three rows, three thumb keys.
 - Column stagger and splay on the pinky and ring columns.
-- Powered by nice!nano microcontroller / pro micro (and optional nice!view display).
+- Powered by nice!nano microcontroller / pro micro clone (and optional nice!view display).
 - Designed for wireless use / battery.
 - Low profile v1 Choc switches.
 - Reversible PCB.
@@ -20,16 +20,13 @@ _a 36-key split ergonomic wireless keyboard._
 
 ## Build guide
 
-The build for the TEMPEST is simple, and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
+The build for the TEMPEST is simple and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
 
 ## Using this repo
 
 ### Ergogen / design
 
-The ergogen files are contained in the ergogen/ folder. See [here](https://docs.ergogen.xyz/usage) for guidance on building from ergogen.
-
-> [!IMPORTANT]
-> Some of the ergogen/ceoloide footprint files have been modified slightly from the [originals](https://github.com/ceoloide/ergogen-footprints).
+The ergogen files are contained in the ergogen/ folder. (See [here](https://docs.ergogen.xyz/usage) for guidance on building from ergogen.)
 
 ### PCB
 Gerber and drill files for PCB fabrication (i.e. JLPCB) can be found in /tempest-gerbers/ for ordering.
