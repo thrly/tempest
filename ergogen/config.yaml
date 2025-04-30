@@ -70,15 +70,15 @@ points:
           key.stagger: 0.6ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
-          key.column_net: P19 #col_ring
+          key.column_net: col_ring
         middle:
           key.stagger: 0.4ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
-          key.column_net: P18 #col_middle
+          key.column_net: col_middle
         index:
           key.stagger: -0.4ky
-          key.column_net: P15 #col_index
+          key.column_net: col_index
         inner:
           key.stagger: -0.15ky
           key.column_net: col_inner
