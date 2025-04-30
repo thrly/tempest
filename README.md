@@ -5,7 +5,7 @@ _a 36-key split ergonomic wireless keyboard._
 ![TEMPEST Image](/tempest-pcb-v01.png)
 
 > [!CAUTION]
-> v.0.1 : Currently awaiting PCB to tests. There are some potential collisions on the board design which may cause issues.
+> v.0.1 : Error in circuit layout: ring, middle, index keys do NOT work. DO NOT BUILD THIS VERSION.
 
 ## Design
 
@@ -37,7 +37,7 @@ Gerber and drill files for PCB fabrication (i.e. JLPCB) can be found in /tempest
 Latest KiCad PCB is included, but files can be generated using Ergogen.
 
 ### Case
-Plates and case 3D printed (STLs included). Printed in Matte PLA, with 0.12 layer height and 100% infill. 
+Plates and case 3D printed (STLs included). Printed in Matte PLA, with 0.12 layer height and 100% infill.
 Alternatively, you can use the back-plate and top-plate exports from ergogen to order FR-4 plates along with your PCB.
 
 ## Influences
@@ -50,9 +50,3 @@ TEMPEST takes influence from:
 - [FORAGER](https://github.com/carrefinho/forager) by carrefinho
 - [Corne](https://github.com/foostan/crkbd) by foostan (and the [Typeractive](https://typeractive.xyz/) version)
 - also Chocofi, Sweep, etc.
-
-## Future improvements
-For version 2 (not currently planned), I will likely make changes to:
-- thumb cluster placement: bring the inner and outer thumb keys in closer to the middle thumb key to remove the slight gap.
-- raise the ring column slightly, lower the middle-finger column slightly (maybe).
-
