@@ -67,7 +67,7 @@ points:
           key.splay: spang # comment this line out if using the 'extra' key above
           key.column_net: col_pinky
         ring:
-          key.stagger: 0.66ky
+          key.stagger: 0.6ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
           key.column_net: P19 #col_ring
@@ -77,7 +77,7 @@ points:
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
           key.column_net: P18 #col_middle
         index:
-          key.stagger: -0.5ky
+          key.stagger: -0.4ky
           key.column_net: P15 #col_index
         inner:
           key.stagger: -0.15ky
@@ -96,7 +96,7 @@ points:
         spread: 1kx
       anchor:
         ref: matrix_index_bottom
-        shift: [0.33kx, -1.25ky]
+        shift: [0.5kx, -1.25ky]
         # rotate: -10
       columns:
         near:
