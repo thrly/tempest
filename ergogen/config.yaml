@@ -6,7 +6,7 @@
 
 meta:
   engine: 4.1.0
-  version: 0.1a
+  version: 1.1
   author: oliver thurley
   url: https://github.com/thrly/tempest
 
@@ -43,7 +43,7 @@ units:
   hole5_y: -0.2 ky
 
   wall_thickness: 1.2 # account for the thickness in 3D printed case/plate
-  print_fit_tolerance: 0.5 # give the case some overlap beyond pcb
+  print_fit_tolerance: 1 # give the case some overlap beyond pcb
 
   # display correct choc sizing
   $default_width: 18
@@ -93,7 +93,7 @@ points:
     thumb:
       key:
         padding: 1ky
-        spread: 1.1kx
+        spread: 1kx
       anchor:
         ref: matrix_index_bottom
         shift: [0.33kx, -1.25ky]
@@ -142,9 +142,8 @@ outlines:
     - what: rectangle
       where:
         - ref: matrix_inner_top
-          shift: [11.5, -8 - voff]
-      size: [5, 35]
-
+          shift: [11.5, -7.5 - voff]
+      size: [5, 40]
 
   mcu:
     - what: rectangle
@@ -186,7 +185,7 @@ outlines:
 
   top_plate:
     - name: key_section
-      expand: 1.2
+      expand: 1.2 + print_fit_tolerance + wall_thickness
     - operation: subtract
       name: top_plate_cutouts
       fillet: 1
@@ -196,9 +195,10 @@ outlines:
       expand: 1.2
       fillet: 1
 
-  backplate:
+  back_plate:
     - name: board_outline
-      expand: wall_thickness
+      expand: wall_thickness + print_fit_tolerance
+      fillet: 1
 
   # Combination preview showing outline and keys.
   all_key_outline:
@@ -325,7 +325,7 @@ pcbs:
           - ref: matrix_inner_bottom
             shift: [21, -6  - voff]
         params:
-          text: "v.0.1"
+          text: "ver 1.1"
           reversible: true
 
       hole_1:
@@ -387,8 +387,7 @@ pcbs:
     template: kicad8
     outlines:
       main:
-        outline: board_outline
-        expand: wall-thickness + print_fit_tolerance
+        outline: back_plate
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
@@ -422,7 +421,6 @@ pcbs:
     outlines:
       main:
         outline: top_plate
-        expand: print_fit_tolerance
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
