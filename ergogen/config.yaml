@@ -33,8 +33,8 @@ units:
   hole2_x: -0.52 kx
   hole2_y: -0.35 ky
 
-  hole3_x: 0.5 kx + 2.8
-  hole3_y: 0.4 ky - 0.2
+  hole3_x: 0.5 kx + 1
+  hole3_y: 0.4 ky + 1.2
 
   hole4_x: 0.5 kx - 0.4
   hole4_y: -0.5 ky - 2
@@ -138,19 +138,19 @@ outlines:
       where: true
       size: [13.8, 13.8]
 
-  mcu_key_shave:
-    - what: rectangle
-      where:
-        - ref: matrix_inner_top
-          shift: [11.5, -7.5 - voff]
-      size: [5, 40]
+  # mcu_key_shave:
+  #   - what: rectangle
+  #     where:
+  #       - ref: matrix_inner_top
+  #         shift: [11.5, -7.5 - voff]
+  #     size: [5, 40]
 
   mcu:
     - what: rectangle
       where:
         - ref: matrix_inner_top
-          shift: [18, -20 - voff]
-      size: [18, 60]
+          shift: [18.5, -20 - voff]
+      size: [19, 60]
 
   # draw thumb cluster outline
   thumb_outline:
@@ -181,7 +181,7 @@ outlines:
   key_section: [raw, thumb_outline]
   key_and_thumb: [key_section, mcu]
 
-  top_plate_cutouts: [key-plug, mcu_key_shave]
+  top_plate_cutouts: [key-plug] #, mcu_key_shave]
 
   top_plate:
     - name: key_section
@@ -245,7 +245,7 @@ pcbs:
         what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 10.8 - voff]
+            shift: [19.3, 10.8 - voff]
         params:
           reversible: true
           reverse_mount: true
@@ -267,7 +267,7 @@ pcbs:
           include_labels: false
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 8 - voff]
+            shift: [19.3, 8 - voff]
 
       battery:
         what: ceoloide/battery_connector_jst_ph_2
@@ -284,7 +284,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26.16, -22.5 - voff]
+            shift: [27.18, -22.5 - voff]
             rotate: 0
 
       reset:
@@ -293,14 +293,14 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26.2, -14 - voff]
+            shift: [27.2, -14 - voff]
             rotate: -90
 
       tempest:
         what: ceoloide/utility_text
         where:
           - ref: matrix_inner_bottom
-            shift: [16.25, -4 - voff]
+            shift: [16.25, -3 - voff]
         params:
           text: "TEMPEST"
           height: 2
@@ -323,7 +323,7 @@ pcbs:
         what: ceoloide/utility_text
         where:
           - ref: matrix_inner_bottom
-            shift: [21, -6  - voff]
+            shift: [20, -5  - voff]
         params:
           text: "ver 1.1"
           reversible: true
@@ -371,16 +371,16 @@ pcbs:
           hole_drill: standoff_size
 
       ### mcu cover holes
-      hole_screen_L:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_inner_bottom
-            shift: [0.5 kx + 1.4, 2.]
-      hole_screen_5:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_inner_bottom
-            shift: [0.5 kx + 17.3, 2.0]
+      # hole_screen_L:
+      #   what: ceoloide/mounting_hole_npth
+      #   where:
+      #     - ref: matrix_inner_bottom
+      #       shift: [0.5 kx + 1.6, 2.0]
+      # hole_screen_5:
+      #   what: ceoloide/mounting_hole_npth
+      #   where:
+      #     - ref: matrix_inner_bottom
+      #       shift: [0.5 kx + 18.7, 2.0]
 
   ##### BACKPLATE PCB
   tempest-back-plate:
