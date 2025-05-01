@@ -2,7 +2,7 @@
 
 _a 36-key split ergonomic wireless keyboard._
 
-![TEMPEST Image](/tempest-pcb-v01.png)
+![TEMPEST Image](/tempest-pcb-v1-1.png)
 
 > [!CAUTION]
 > v.0.1 : Error in circuit layout: ring, middle, index keys do NOT work. DO NOT BUILD THIS VERSION.
