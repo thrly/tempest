@@ -6,7 +6,7 @@
 
 meta:
   engine: 4.1.0
-  version: 0.1a
+  version: 1.1
   author: oliver thurley
   url: https://github.com/thrly/tempest
 
@@ -19,7 +19,7 @@ units:
   py: ky + 2
 
   # vertical offset of mcu area items
-  voff: 6
+  voff: 11
 
   # pinky splay angles
   spang: 8
@@ -33,17 +33,17 @@ units:
   hole2_x: -0.52 kx
   hole2_y: -0.35 ky
 
-  hole3_x: 0.5 kx + 2.8
-  hole3_y: 0.4 ky - 0.2
+  hole3_x: 0.5 kx + 1
+  hole3_y: 0. ky - 1.5
 
-  hole4_x: 0.5 kx - 0.4
-  hole4_y: -0.5 ky - 2
+  hole4_x: 0.5 kx - 5
+  hole4_y: -0.5 ky - 2.1
 
   hole5_x: -0.5 kx - 0.4
-  hole5_y: -0.2 ky
+  hole5_y: -0.2 ky + 1.1
 
   wall_thickness: 1.2 # account for the thickness in 3D printed case/plate
-  print_fit_tolerance: 0.5 # give the case some overlap beyond pcb
+  print_fit_tolerance: 1 # give the case some overlap beyond pcb
 
   # display correct choc sizing
   $default_width: 18
@@ -67,18 +67,18 @@ points:
           key.splay: spang # comment this line out if using the 'extra' key above
           key.column_net: col_pinky
         ring:
-          key.stagger: 0.66ky
+          key.stagger: 0.6ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
-          key.column_net: P19 #col_ring
+          key.column_net: col_ring
         middle:
           key.stagger: 0.4ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
-          key.column_net: P18 #col_middle
+          key.column_net: col_middle
         index:
-          key.stagger: -0.5ky
-          key.column_net: P15 #col_index
+          key.stagger: -0.4ky
+          key.column_net: col_index
         inner:
           key.stagger: -0.15ky
           key.column_net: col_inner
@@ -93,10 +93,10 @@ points:
     thumb:
       key:
         padding: 1ky
-        spread: 1.1kx
+        spread: 1kx
       anchor:
         ref: matrix_index_bottom
-        shift: [0.33kx, -1.25ky]
+        shift: [0.5kx, -1.25ky]
         # rotate: -10
       columns:
         near:
@@ -138,20 +138,19 @@ outlines:
       where: true
       size: [13.8, 13.8]
 
-  mcu_key_shave:
-    - what: rectangle
-      where:
-        - ref: matrix_inner_top
-          shift: [11.5, -8 - voff]
-      size: [5, 35]
-
+  # mcu_key_shave:
+  #   - what: rectangle
+  #     where:
+  #       - ref: matrix_inner_top
+  #         shift: [11.5, -7.5 - voff]
+  #     size: [5, 40]
 
   mcu:
     - what: rectangle
       where:
         - ref: matrix_inner_top
-          shift: [18, -20 - voff]
-      size: [18, 60]
+          shift: [18.25, -20 - voff]
+      size: [22, 62]
 
   # draw thumb cluster outline
   thumb_outline:
@@ -182,23 +181,24 @@ outlines:
   key_section: [raw, thumb_outline]
   key_and_thumb: [key_section, mcu]
 
-  top_plate_cutouts: [key-plug, mcu_key_shave]
+  top_plate_cutouts: [key-plug] #, mcu_key_shave]
 
   top_plate:
     - name: key_section
-      expand: 1.2
+      expand: 1.2 + print_fit_tolerance + wall_thickness
     - operation: subtract
       name: top_plate_cutouts
       fillet: 1
 
   board_outline:
     - name: key_and_thumb
-      expand: 1.2
+      expand: 0.1 # padding on outer edge or board
       fillet: 1
 
-  backplate:
+  back_plate:
     - name: board_outline
-      expand: wall_thickness
+      expand: wall_thickness + print_fit_tolerance
+      fillet: 1
 
   # Combination preview showing outline and keys.
   all_key_outline:
@@ -245,7 +245,7 @@ pcbs:
         what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 10.8 - voff]
+            shift: [18.8, 10.8 - voff]
         params:
           reversible: true
           reverse_mount: true
@@ -267,7 +267,7 @@ pcbs:
           include_labels: false
         where:
           - ref: matrix_inner_home
-            shift: [18.5, 8 - voff]
+            shift: [18.8, 8 - voff]
 
       battery:
         what: ceoloide/battery_connector_jst_ph_2
@@ -284,7 +284,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26.16, -22.5 - voff]
+            shift: [27.2, -18.2 - voff]
             rotate: 0
 
       reset:
@@ -293,19 +293,28 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [26.2, -14 - voff]
+            shift: [27.3, -9.5 - voff]
             rotate: -90
 
       tempest:
         what: ceoloide/utility_text
         where:
-          - ref: matrix_inner_bottom
-            shift: [16.25, -4 - voff]
+          - ref: matrix_index_home
+            shift: [0, -0.5ky +1.45]
         params:
           text: "TEMPEST"
           height: 2
           width: 2
           knockout: true
+          reversible: true
+
+      ver:
+        what: ceoloide/utility_text
+        where:
+          - ref: matrix_index_home
+            shift: [0.5kx, -0.5ky +1.45]
+        params:
+          text: "v 1.1"
           reversible: true
 
       thrly:
@@ -317,15 +326,6 @@ pcbs:
         params:
           text: "by thrly"
           side: "B"
-          reversible: true
-
-      ver:
-        what: ceoloide/utility_text
-        where:
-          - ref: matrix_inner_bottom
-            shift: [21, -6  - voff]
-        params:
-          text: "v.0.1"
           reversible: true
 
       hole_1:
@@ -371,24 +371,23 @@ pcbs:
           hole_drill: standoff_size
 
       ### mcu cover holes
-      hole_screen_L:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_inner_bottom
-            shift: [0.5 kx + 1.4, 2.]
-      hole_screen_5:
-        what: ceoloide/mounting_hole_npth
-        where:
-          - ref: matrix_inner_bottom
-            shift: [0.5 kx + 17.3, 2.0]
+      # hole_screen_L:
+      #   what: ceoloide/mounting_hole_npth
+      #   where:
+      #     - ref: matrix_inner_bottom
+      #       shift: [0.5 kx + 2.5, -0.6 ky - 0.5]
+      # hole_screen_R:
+      #   what: ceoloide/mounting_hole_npth
+      #   where:
+      #     - ref: matrix_inner_bottom
+      #       shift: [0.5 kx + 13, -0.6 ky - 3]
 
   ##### BACKPLATE PCB
   tempest-back-plate:
     template: kicad8
     outlines:
       main:
-        outline: board_outline
-        expand: wall-thickness + print_fit_tolerance
+        outline: back_plate
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
@@ -422,7 +421,6 @@ pcbs:
     outlines:
       main:
         outline: top_plate
-        expand: print_fit_tolerance
     footprints:
       hole_1:
         what: ceoloide/mounting_hole_npth
