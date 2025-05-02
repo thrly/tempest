@@ -18,7 +18,7 @@ _a 36-key split ergonomic wireless keyboard._
 
 ## Build guide
 
-The build for the TEMPEST is simple, and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
+The build for the TEMPEST is simple and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
 
 > [!IMPORTANT]
 > Microcontroller should be placed **facing DOWN** (i.e. facing the board).
