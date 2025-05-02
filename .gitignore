@@ -1,4 +1,2 @@
-output/
-tempest-gerbers/
-gerbers/
-3d/
+*/output/
+*/3d/
