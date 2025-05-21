@@ -8,13 +8,16 @@ _a 36-key split ergonomic wireless keyboard._
 
 - Five columns, three rows, three thumb keys.
 - Column stagger and splay on the pinky and ring columns.
-- Powered by nice!nano / pro micro microcontroller (and optional nice!view display).
+- Powered by nice!nano / pro micro microcontroller ~~(and optional nice!view display)~~.
 - Designed for wireless use / battery.
 - Low profile v1 Choc switches.
 - Reversible PCB.
 - Uses some components (JST plug, power switch, reset) from the Typeractive Corne design.
 - Layout designed with [Ergogen](https://ergogen.ceoloide.com/) (see [config.yaml](./ergogen/config.yaml)).
 - PCB designed with [KiCad](https://www.kicad.org/) (v 9).
+
+> [!NOTE]
+> There is no display on current version (1.1). The display header pins are not connected correctly. You could probably hand-wire the holes to the microcontroller to fix though.
 
 ## Build guide
 
