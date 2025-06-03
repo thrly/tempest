@@ -4,6 +4,8 @@ _a 36-key split ergonomic wireless keyboard._
 
 ![TEMPEST PCB Image](images/tempest-pcb-v1-1.png)
 
+> Tempest PCB v1.1
+
 ## Design
 
 - Five columns, three rows, three thumb keys.
@@ -25,6 +27,9 @@ The build for the TEMPEST is simple and broadly follows the same steps outlined 
 
 > [!IMPORTANT]
 > Microcontroller should be placed **facing DOWN** (i.e. facing the board).
+
+> [!NOTE]
+> The pin holes on the board have been narrowed (to 0.85mm) to enable the use of no-solder spring headers (MAC8 XB-3-5, as found from [Typeractive](https://typeractive.xyz/products/no-solder-spring-headers?variant=47196312502503)). These headers will fit the nice!nano, but other Pro Micro controllers may have pin holes that are too wide for these spring headers.
 
 > [!IMPORTANT]
 > Ensure that you solder the jumper pads for microcontroller, display, and battery plug closed **on the BACK side of the board** (i.e. the same side you're soldering your hotswap switch plugs and diodes).
