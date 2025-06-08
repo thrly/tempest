@@ -1,4 +1,5 @@
 # TEMPEST
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/thrly/tempest) ![Maintenance](https://img.shields.io/maintenance/yes/2025)
 
 _a 36-key split ergonomic keyboard_
 
