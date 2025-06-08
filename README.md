@@ -1,6 +1,6 @@
 # TEMPEST
 
-_a 36-key split ergonomic wireless keyboard._
+_a 36-key split ergonomic keyboard_
 
 ![TEMPEST keyboard](images/tempest.jpg)
 
@@ -8,8 +8,8 @@ _a 36-key split ergonomic wireless keyboard._
 
 - Five columns, three rows, three thumb keys.
 - Column stagger and splay on the pinky and ring columns.
-- Powered by nice!nano / pro micro microcontroller ~~(and optional nice!view display)~~.
-- Designed for wireless use / battery.
+- Powered by nice!nano / pro micro microcontroller.
+- Designed for wireless use + battery.
 - Low profile v1 Choc switches.
 - Reversible PCB.
 - Uses some components (JST plug, power switch, reset) from the Typeractive Corne design.
@@ -17,7 +17,7 @@ _a 36-key split ergonomic wireless keyboard._
 - PCB designed with [KiCad](https://www.kicad.org/) (v 9).
 
 > [!NOTE]
-> There is no display on current version (1.1). The display header pins are not connected correctly. You could probably hand-wire the holes to the microcontroller to fix though.
+> Despite the footprint for it, there is no display on the current version (1.1). The display header pins are not connected correctly. See issue [#7](https://github.com/thrly/tempest/issues/7). You could probably hand-wire the holes to the microcontroller to fix though.
 
 ![TEMPEST keyboard](images/tempest-2.jpg)
 
@@ -46,17 +46,19 @@ _a 36-key split ergonomic wireless keyboard._
 
 ### Optional: Case
 
-| Quantity | Part                        | Notes                                                         |
-| -------- | --------------------------- | ------------------------------------------------------------- |
-| 2        | case .stl                   | Mirror for right side; PLA; 0.12 mm layer height; >50% infill |
-| 2        | key plate STL               | Mirror for right side; PLA; 0.12 mm layer height; >50% infill |
-| 2        | stick on rubber feet (8 mm) | or tenting legs from aliexpress                               |
-| 10       | M2 standoffs (4 mm height)  |                                                               |
-| 20       | M2 bolts (4 mm)             |                                                               |
+| Quantity | Part                 | Notes                                                         |
+| -------- | -------------------- | ------------------------------------------------------------- |
+| 2        | case .stl            | Mirror for right side; PLA; 0.12 mm layer height; >50% infill |
+| 2        | key plate STL        | Mirror for right side; PLA; 0.12 mm layer height; >50% infill |
+| 2        | stick-on rubber feet | or tenting legs from aliexpress                               |
+| 10       | M2 standoffs         | height: 4 mm                                                  |
+| 20       | M2 bolts             | height: 4 mm                                                  |
 
 ## Build guide
 
 The build for the TEMPEST is simple and broadly follows the same steps outlined in [Typeractive's Corne build](https://docs.typeractive.xyz/build-guides/corne-wireless). Theirs is well-written and documented, so read that for now.
+
+Some important notes, however:
 
 > [!IMPORTANT]
 > Microcontroller should be placed **facing DOWN** (i.e. facing the board).
@@ -73,14 +75,21 @@ The build for the TEMPEST is simple and broadly follows the same steps outlined 
 
 The ergogen files are contained in the ergogen/ folder. See [here](https://docs.ergogen.xyz/usage) for guidance on building from ergogen.
 
+Ergogen was used mainly as a layout tool for the keys and wiring nets. Some of the footprints for things like MCU, switches, plugs, etc. may have been manually tweaked in the KiCad PCB editor, so don't expect the Ergogen render to be completely the same as the final PCB version.
+
 > [!NOTE]
 > Some of the ergogen/ceoloide footprint files used here have been modified slightly from the [originals](https://github.com/ceoloide/ergogen-footprints). Run locally, not on the ergogen web app.
 
-### PCB
+### Ordering the PCB
 
-Gerber and drill files for PCB fabrication (i.e. JLPCB).
+Use the Gerber .zip file for PCB fabrication (i.e. JLPCB, PCBWay).
 
-Latest KiCad PCB is included, but files can be generated using Ergogen.
+#### Suggested fabrication options
+
+- FR-4 PCB, 1.6 mm
+- LeadFree HASL
+
+Latest KiCad PCB is included, or files can be generated using Ergogen.
 
 ![TEMPEST PCB Image](images/tempest-pcb-v1-1.png)
 
@@ -95,11 +104,19 @@ Files for a simple 3D-printed case included. Pictured case was printed in Matte 
 
 ## Influences
 
-TEMPEST takes influence from:
+TEMPEST is inspired by and takes influence from:
 
 - [Temper](https://github.com/raeedcho/temper) by raeedcho
 - [Bad Temper](https://github.com/essFitt/Bad-Temper/tree/main) by essFitt
 - [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) by GEIST
 - [FORAGER](https://github.com/carrefinho/forager) by carrefinho
 - [Corne](https://github.com/foostan/crkbd) by foostan (and the [Typeractive](https://typeractive.xyz/) version)
-- also Chocofi, Sweep, etc.
+- also [Chocofi](https://github.com/pashutk/chocofi), [Sweep](https://github.com/davidphilipbarr/Sweep), and others.
+
+## Thanks
+
+If you build Tempest, I'd _love_ to hear how you get on with it. Please say hello via [thrly.com](https://www.thrly.com) or [instagram](https://www.instagram.com/thrly.xy/).
+
+![Tempest Wave](/images/wave.png)
+
+<a href="https://ko-fi.com/C0C22GIO8" target="_blank"><img height="42" alt="Buy Me a Coffee at ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi1.png?v=6"></a>
