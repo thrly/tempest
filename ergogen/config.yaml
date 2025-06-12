@@ -1,8 +1,12 @@
 # Ergogen congig file for TEMPEST keyboard
 
+# TEMPEST, by oliver thurley - @thrly
+# https://github.com/thrly/tempest
+# spring 2025
+
 # invaluable ergogen help from https://flatfootfox.com/ergogen-part1-units-points/
 
-# note that the mcu and display footprint files have been edited to alter drill size to 0.85mm.
+# NOTE: the mcu and display footprint files have been edited to alter drill size to 0.85mm. Build from the footprints on the github repo, not ergogen's web client.
 
 meta:
   engine: 4.1.0
@@ -43,7 +47,7 @@ units:
   hole5_y: -0.2 ky + 1.1
 
   wall_thickness: 1.2 # account for the thickness in 3D printed case/plate
-  print_fit_tolerance: 1 # give the case some overlap beyond pcb
+  print_fit_tolerance: 0.2 # give the case some overlap beyond pcb
 
   # display correct choc sizing
   $default_width: 18
@@ -149,6 +153,7 @@ outlines:
     - what: rectangle
       where:
         - ref: matrix_inner_top
+          # TODO #4 move this over to the right to create more space between inner key col and mcu
           shift: [18.25, -20 - voff]
       size: [22, 62]
 
@@ -185,7 +190,7 @@ outlines:
 
   top_plate:
     - name: key_section
-      expand: 1.2 + print_fit_tolerance + wall_thickness
+      # expand: print_fit_tolerance + wall_thickness
     - operation: subtract
       name: top_plate_cutouts
       fillet: 1
@@ -245,6 +250,7 @@ pcbs:
         what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
+            # TODO #5 Move MCU right to create space between Key cols. 1mm should do it to start with...
             shift: [18.8, 10.8 - voff]
         params:
           reversible: true
@@ -260,6 +266,7 @@ pcbs:
           P19: col_ring
           P20: col_pinky
 
+      # TODO #7 Add display to net to connet with MCU pins?
       display:
         what: ceoloide/display_nice_view
         params:
@@ -267,6 +274,7 @@ pcbs:
           include_labels: false
         where:
           - ref: matrix_inner_home
+            # TODO #6 Display is not aligned correctly with MCU.
             shift: [18.8, 8 - voff]
 
       battery:
@@ -382,6 +390,7 @@ pcbs:
       #     - ref: matrix_inner_bottom
       #       shift: [0.5 kx + 13, -0.6 ky - 3]
 
+  ## these are not used in v.1.1, but they might be useful down the road for better case building, or fabricating FR4 plates
   ##### BACKPLATE PCB
   tempest-back-plate:
     template: kicad8
