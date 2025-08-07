@@ -261,6 +261,7 @@ pcbs:
           P8: MOSI
           P9: SCK
           P10: CS
+          # TODO: these pins are all fucked up: reorganise them, use defaults for nice!view
 
       # v2 - fixes display alignment and corrects connection with mcu... hopefully (fixes issues #6 and #7)
       display:
@@ -422,7 +423,7 @@ pcbs:
       hole_5:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_ring_bottom
+          - ref: matrix_ring_home
             shift: [hole5_x, hole5_y]
 
   ###### TOPPLATE
@@ -455,5 +456,5 @@ pcbs:
       hole_5:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_ring_bottom
+          - ref: matrix_ring_home
             shift: [hole5_x, hole5_y]
