@@ -1,33 +1,30 @@
 # TEMPEST
 
-_a 36-key split ergonomic keyboard_
+a 36/38-key split ergonomic keyboard
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2025) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/thrly/tempest)
-
-![TEMPEST keyboard](images/tempest-white.jpg)
+![Tempest](images/tempest.jpg)
 
 ## Design
 
 - Five columns, three rows, three thumb keys
+  - Optional extra key for 36 or 38-key configuration (snap-off pcb)
 - Column stagger and splay on the pinky and ring columns
 - Powered by nice!nano / pro micro microcontroller
+- Optional nice!view display
 - Designed for wireless use + battery
 - Low profile v1 Choc switches + hotswap sockets
 - Reversible PCB
 - Uses some components (JST plug, power switch, reset) from the Typeractive Corne design
 - Layout designed with [Ergogen](https://ergogen.ceoloide.com/) (see [config.yaml](./ergogen/config.yaml))
 - PCB designed with [KiCad](https://www.kicad.org/) (v 9)
-- Simple 3D-printable case
+- Simple 3D-printable case for both 36 and 38-key layouts
 
-> [!NOTE]
-> Despite the footprint for it, there is **no working display** on the current version (1.1). The display header pins are not connected correctly. See issue [#7](https://github.com/thrly/tempest/issues/7). You could probably hand-wire the holes to the microcontroller pins to fix though...
-
-![TEMPEST keyboard](images/tempest.jpg)
+![TEMPEST pcb](images/tempest-pcb.png)
 
 ## Firmware
 
 TEMPEST was designed to be used with ZMK. [You can find the ZMK-config repository and a keymap here.](https://github.com/thrly/tempest-zmk)
-
 
 ## Build Guide
 

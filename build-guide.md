@@ -4,6 +4,8 @@ The build for the TEMPEST is simple and broadly follows the same steps outlined 
 
 Some important notes, however:
 
+Before starting your build, decide if you want the 'extra' outer keys or want the simple 5-column 36-key configuration. If removing the extra keys, simply snap them off the pcb. You may find the break-off points are sharp, so file/sand them down. **WARNING**: the dust from this is toxic, wear a mask and do it outside.
+
 > [!IMPORTANT]
 > Microcontroller should be placed **facing DOWN** (i.e. facing the board).
 
@@ -13,7 +15,7 @@ Some important notes, however:
 > [!IMPORTANT]
 > Ensure that you solder the jumper pads for microcontroller, display, and battery plug closed **on the BACK side of the board** (i.e. the same side you're soldering your hotswap switch plugs and diodes).
 
-![TEMPEST keyboard](images/tempest-2.jpg)
+![TEMPEST keyboard](images/tempest.jpg)
 
 ## Case
 
@@ -33,15 +35,15 @@ Ergogen was used mainly as a layout tool for the keys and wiring nets. Some of t
 
 ## Ordering the PCB
 
-Use [tempest_gerbers_v1.zip](/tempest_gerbers_v1.zip) for PCB fabrication (i.e. JLPCB, PCBWay).
+Use [tempest_v2_gerbers.zip](./tempest-v2-gerbers.zip) for PCB fabrication (i.e. JLPCB, PCBWay).
 
 ### Suggested fabrication options
 
 - FR-4 PCB, 1.6 mm
 - LeadFree HASL
 
-Latest [KiCad_PCB file](/tempest_pcb_v1.1.kicad_pcb) is included, or files can be generated using Ergogen.
+Latest [KiCad_PCB file](./tempest-pcb-v-2.kicad_pcb) is included, or files can be generated using Ergogen.
 
-![TEMPEST PCB Image](images/tempest-pcb-v1-1.png)
+![TEMPEST PCB Image](images/tempest-pcb.png)
 
-> Tempest PCB v1.1
+> Tempest PCB v2
