@@ -2,7 +2,8 @@
 
 # TEMPEST, by oliver thurley - @thrly
 # https://github.com/thrly/tempest
-# spring 2025
+# v1 - spring 2025
+# v2 - summer 2025
 
 # invaluable ergogen help from https://flatfootfox.com/ergogen-part1-units-points/
 
@@ -10,7 +11,7 @@
 
 meta:
   engine: 4.1.0
-  version: 1.1
+  version: 2.0
   author: oliver thurley
   url: https://github.com/thrly/tempest
 
@@ -23,13 +24,14 @@ units:
   py: ky + 2
 
   # vertical offset of mcu area items
-  voff: 11
+  voff: 7
 
   # pinky splay angles
   spang: 8
   pinksprd: 0.5
 
   standoff_size: 5 #size for standoff holes on pcb
+  screen_standoff_size: 2
 
   hole1_x: -0.5 kx - 1
   hole1_y: -0.5 ky + 0.5
@@ -38,13 +40,13 @@ units:
   hole2_y: -0.35 ky
 
   hole3_x: 0.5 kx + 1
-  hole3_y: 0. ky - 1.5
+  hole3_y: 0. ky - 0.5
 
   hole4_x: 0.5 kx - 5
   hole4_y: -0.5 ky - 2.1
 
-  hole5_x: -0.5 kx - 0.4
-  hole5_y: -0.2 ky + 1.1
+  hole5_x: -0.5 kx - 0.6
+  hole5_y: -0.6 ky + 1.5
 
   wall_thickness: 1.2 # account for the thickness in 3D printed case/plate
   print_fit_tolerance: 0.2 # give the case some overlap beyond pcb
@@ -61,27 +63,27 @@ points:
         padding: 1ky # is this extra spacing necessary or will 1 allow spacing for keycaps?
         spread: 1kx
       columns:
-        # extra: # additional outer key, inspired by TOTEM
-        #   rows.bottom.skip: true
-        #   rows.top.skip: true
-        #   key.splay: spang
-        #   key.column_net: col_extra
+        extra: # additional outer key, inspired by TOTEM
+          rows.bottom.skip: true
+          rows.top.skip: true
+          key.splay: spang
+          key.column_net: col_extra
         pinky:
-          key.stagger: 0.33ky
-          key.splay: spang # comment this line out if using the 'extra' key above
+          key.stagger: 0.3ky
+          # key.splay: spang # comment this line out if using the 'extra' key above
           key.column_net: col_pinky
         ring:
-          key.stagger: 0.6ky
+          key.stagger: 0.35ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
           key.column_net: col_ring
         middle:
-          key.stagger: 0.4ky
+          key.stagger: 0.25ky
           key.splay: -spang/2
           key.spread: 1kx + pinksprd # avoid collision on splayed col?
           key.column_net: col_middle
         index:
-          key.stagger: -0.4ky
+          key.stagger: -0.2ky
           key.column_net: col_index
         inner:
           key.stagger: -0.15ky
@@ -100,8 +102,7 @@ points:
         spread: 1kx
       anchor:
         ref: matrix_index_bottom
-        shift: [0.5kx, -1.25ky]
-        # rotate: -10
+        shift: [0.4kx, -1.25ky] # this is slightly reduced in v2 from 0.5kx
       columns:
         near:
           key.name: thumb_near
@@ -113,10 +114,10 @@ points:
           key.column_net: col_index
         far:
           key.splay: -15
-          key.origin: [-0.5kx, -0.5ky] #-0.5kx
+          key.origin: [-0.5kx, -0.5ky]
           key.name: thumb_far
           key.column_net: col_inner
-          ## for 1.5 thumb key
+          # # for 1.5 thumb key
           # key.width: 1.5kx
           # key.rotate: 90
       rows:
@@ -142,19 +143,11 @@ outlines:
       where: true
       size: [13.8, 13.8]
 
-  # mcu_key_shave:
-  #   - what: rectangle
-  #     where:
-  #       - ref: matrix_inner_top
-  #         shift: [11.5, -7.5 - voff]
-  #     size: [5, 40]
-
   mcu:
     - what: rectangle
       where:
         - ref: matrix_inner_top
-          # TODO #4 move this over to the right to create more space between inner key col and mcu
-          shift: [18.25, -20 - voff]
+          shift: [19.5, -20 - voff] # v2 - Creates more space between inner key col and mcu (issue #4)
       size: [22, 62]
 
   # draw thumb cluster outline
@@ -184,7 +177,7 @@ outlines:
 
   # combine keys with thumb cluster
   key_section: [raw, thumb_outline]
-  key_and_thumb: [key_section, mcu]
+  key_thumb_mcu: [key_section, mcu]
 
   top_plate_cutouts: [key-plug] #, mcu_key_shave]
 
@@ -196,7 +189,7 @@ outlines:
       fillet: 1
 
   board_outline:
-    - name: key_and_thumb
+    - name: key_thumb_mcu
       expand: 0.1 # padding on outer edge or board
       fillet: 1
 
@@ -250,8 +243,7 @@ pcbs:
         what: ceoloide/mcu_nice_nano
         where:
           - ref: matrix_inner_home
-            # TODO #5 Move MCU right to create space between Key cols. 1mm should do it to start with...
-            shift: [18.8, 10.8 - voff]
+            shift: [19.8, 10.8 - voff] # v2 - creates more space between mcu and key colums (issue #5) : v1:18.8
         params:
           reversible: true
           reverse_mount: true
@@ -265,8 +257,13 @@ pcbs:
           P18: col_middle
           P19: col_ring
           P20: col_pinky
+          P21: col_extra
+          P8: MOSI
+          P9: SCK
+          P10: CS
+          # TODO: these pins are all fucked up: reorganise them, use defaults for nice!view
 
-      # TODO #7 Add display to net to connet with MCU pins?
+      # v2 - fixes display alignment and corrects connection with mcu... hopefully (fixes issues #6 and #7)
       display:
         what: ceoloide/display_nice_view
         params:
@@ -274,8 +271,7 @@ pcbs:
           include_labels: false
         where:
           - ref: matrix_inner_home
-            # TODO #6 Display is not aligned correctly with MCU.
-            shift: [18.8, 8 - voff]
+            shift: [19.8, 7.5 - voff] # v1 = 18.8
 
       battery:
         what: ceoloide/battery_connector_jst_ph_2
@@ -283,7 +279,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [22, -14.2 - voff]
+            shift: [23.5, -14.5 - voff]
             rotate: -90
 
       power:
@@ -292,7 +288,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [27.2, -18.2 - voff]
+            shift: [27.9, -18.5 - voff]
             rotate: 0
 
       reset:
@@ -301,7 +297,7 @@ pcbs:
           reversible: true
         where:
           - ref: matrix_inner_home
-            shift: [27.3, -9.5 - voff]
+            shift: [28.3, -10.2 - voff]
             rotate: -90
 
       tempest:
@@ -322,7 +318,7 @@ pcbs:
           - ref: matrix_index_home
             shift: [0.5kx, -0.5ky +1.45]
         params:
-          text: "v 1.1"
+          text: "v 2"
           reversible: true
 
       thrly:
@@ -372,23 +368,29 @@ pcbs:
       hole_5:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_ring_bottom
+          - ref: matrix_ring_home
             shift: [hole5_x, hole5_y]
         params:
           hole_size: standoff_size
           hole_drill: standoff_size
 
-      ### mcu cover holes
-      # hole_screen_L:
-      #   what: ceoloide/mounting_hole_npth
-      #   where:
-      #     - ref: matrix_inner_bottom
-      #       shift: [0.5 kx + 2.5, -0.6 ky - 0.5]
-      # hole_screen_R:
-      #   what: ceoloide/mounting_hole_npth
-      #   where:
-      #     - ref: matrix_inner_bottom
-      #       shift: [0.5 kx + 13, -0.6 ky - 3]
+      ### mcu cover holes - v2 moves these
+      hole_screen_L:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_bottom
+            shift: [0.5 kx + 4 + 0, -0.5 ky - 0]
+        params:
+          hole_size: screen_standoff_size
+          hole_drill: screen_standoff_size
+      hole_screen_R:
+        what: ceoloide/mounting_hole_npth
+        where:
+          - ref: matrix_inner_bottom
+            shift: [0.5 kx + 4 + 14, -0.5 ky - 6.5 - 0]
+        params:
+          hole_size: screen_standoff_size
+          hole_drill: screen_standoff_size
 
   ## these are not used in v.1.1, but they might be useful down the road for better case building, or fabricating FR4 plates
   ##### BACKPLATE PCB
@@ -421,7 +423,7 @@ pcbs:
       hole_5:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_ring_bottom
+          - ref: matrix_ring_home
             shift: [hole5_x, hole5_y]
 
   ###### TOPPLATE
@@ -454,5 +456,5 @@ pcbs:
       hole_5:
         what: ceoloide/mounting_hole_npth
         where:
-          - ref: matrix_ring_bottom
+          - ref: matrix_ring_home
             shift: [hole5_x, hole5_y]
