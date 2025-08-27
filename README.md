@@ -20,7 +20,7 @@ a 36/38-key split ergonomic keyboard
 - PCB designed with [KiCad](https://www.kicad.org/) (v 9)
 - Simple 3D-printable case for both 36 and 38-key layouts
 
-![TEMPEST pcb](images/tempest-pcb.png)
+![Tempest](images/tempest-half.jpg)
 
 ## Firmware
 
@@ -29,6 +29,11 @@ TEMPEST was designed to be used with ZMK. [You can find the ZMK-config repositor
 ## Build Guide
 
 [Details on the build and case can be found here.](/build-guide.md)
+![TEMPEST pcb](images/tempest-pcb.png)
+
+![Tempest](images/tempest-alt.jpg)
+![Tempest](images/tempest-edge.jpg)
+![Tempest](images/tempest-side.jpg)
 
 ## Influences
 
